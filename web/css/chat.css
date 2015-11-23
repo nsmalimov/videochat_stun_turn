@@ -1,0 +1,293 @@
+.chat {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat li {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat li.left .chat-body {
+    margin-left: 60px;
+}
+
+.chat li.right .chat-body {
+    margin-right: 60px;
+}
+
+.chat li .chat-body p {
+    margin: 0;
+    color: #777777;
+}
+
+.panel .slidedown .glyphicon, .chat .glyphicon {
+    margin-right: 5px;
+
+}
+
+.panel-body {
+    overflow-y: scroll;
+    height: 270px;
+}
+
+#chat_window {
+    margin: 50px 0 0 0;
+}
+
+.hidden {
+    display: none;
+}
+
+div#errorMsg p {
+    color: #F00;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    background-color: #FFF1F0;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    word-break: break-word;
+}
+
+a {
+    color: #6fa8dc;
+    font-weight: 300;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #3d85c6;
+    text-decoration: underline;
+}
+
+a#viewSource {
+    display: block;
+    margin: 1.3em 0 0 0;
+    border-top: 1px solid #999;
+    padding: 1em 0 0 0;
+}
+
+div#links a {
+    display: block;
+    line-height: 1.3em;
+    margin: 0 0 1.5em 0;
+}
+
+@media screen and (min-width: 1000px) {
+    /* hack! to detect non-touch devices */
+    div#links a {
+        line-height: 0.8em;
+    }
+}
+
+h1 a {
+    font-weight: 300;
+    margin: 0 10px 0 0;
+    white-space: nowrap;
+}
+
+audio {
+    max-width: 100%;
+}
+
+button {
+    float: left;
+    list-style: none;
+    background-color: #d84a38;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.8em;
+    margin: 0 0 1em 0;
+    padding: 0.5em 0.7em 0.6em 0.7em;
+}
+
+button:active {
+    background-color: #cf402f;
+}
+
+button:hover {
+    background-color: #cf402f;
+}
+
+button[disabled] {
+    color: #ccc;
+}
+
+button[disabled]:hover {
+    background-color: #d84a38;
+}
+
+canvas {
+    background-color: #ccc;
+    max-width: 100%;
+    width: 100%;
+}
+
+code {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+}
+
+div#container {
+    margin: 0 auto 0 auto;
+    max-width: 40em;
+    padding: 1em 1.5em 1.3em 1.5em;
+}
+
+div#links {
+    padding: 0.5em 0 0 0;
+}
+
+html {
+    /* avoid annoying page width change
+    when moving from the home page */
+    overflow-y: scroll;
+}
+
+img {
+    border: none;
+    max-width: 100%;
+}
+
+input[type=radio] {
+    position: relative;
+    top: -1px;
+}
+
+p {
+    color: #444;
+    font-weight: 300;
+    line-height: 1.6em;
+}
+
+p#data {
+    border-top: 1px dotted #666;
+    font-family: Courier New, monospace;
+    line-height: 1.3em;
+    max-height: 1000px;
+    overflow-y: auto;
+    padding: 1em 0 0 0;
+}
+
+p.borderBelow {
+    border-bottom: 1px solid #aaa;
+    padding: 0 0 20px 0;
+}
+
+section p:last-of-type {
+    margin: 0;
+}
+
+section {
+    border-bottom: 1px solid #eee;
+    margin: 0 0 30px 0;
+    padding: 0 0 20px 0;
+}
+
+section:last-of-type {
+    border-bottom: none;
+    padding: 0 0 1em 0;
+}
+
+select {
+    margin: 0 1em 1em 0;
+    position: relative;
+    top: -1px;
+}
+
+h1 span {
+    white-space: nowrap;
+}
+
+strong {
+    font-weight: 500;
+}
+
+textarea {
+    font-family: 'Roboto', sans-serif;
+}
+
+.button_main{
+    margin: 0px 8px 20px 0px;
+    width: 80px;
+    height: 50px;
+}
+
+video {
+    height: 300px;
+    background: #222;
+    margin: 0 0 20px 13px;
+    vertical-align: top;
+    width: calc(50% - 12px);
+}
+
+video#localVideo {
+    margin: 0 20px 20px 0;
+}
+
+
+/*dima css*/
+
+#remote_container #remote {
+    margin: 10px auto;
+    width: 84.6%;
+    display: block;
+}
+
+
+#local {
+    margin: 10px auto;
+    width: 84.6%;
+    display: block;
+}
+
+.navbar-right li {
+	margin: 0 5px;
+	display: inline-block;
+}
+
+.navbar-header {
+	border: 1px solid red;
+	float: none;
+}
+
+
+@media screen and (max-width: 768px) {
+	#remote_container #remote {width:70%;}
+	#local {width:70%;}
+}
+
+
+/*dima css end*/
+
+
+@media screen and (max-width: 400px) {
+    video {
+        height: 90px;
+        margin: 0 0 10px 0;
+        width: calc(50% - 7px);
+    }
+    video#localVideo {
+        margin: 0 10px 20px 0;
+    }
+
+}
+
+#enter_button{
+    float: none;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.btn.newclass {width:25%; display:block; margin: 0 auto;}
+
+.button_main {
+    margin: 0px 0px 0px 22px;
+}
