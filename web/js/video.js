@@ -62,7 +62,7 @@ var SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDes
 navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
 
 function initialize() {
-    alert("222");
+    alert("333");
     var constraints = {
         audio: false,
         video: true
@@ -72,18 +72,43 @@ function initialize() {
 
 var config = {
     iceServers: [{ url: "stun:stun.l.google.com:19302"},
-        { url: "stun:stun.anyfirewall.com:3478"},
         {
-            url: 'turn:turn.bistri.com:80',
-            credential: 'homeo',
-            username: 'homeo'
+                url: 'turn:95.213.199.90:3478',
+                credential: '22091993',
+                username: 'partizan'
+        }]
+        //{
+        //    url: 'turn:turn.anyfirewall.com:443?transport=tcp',
+        //    credential: 'webrtc',
+        //    username: 'webrtc'
+        //}]
+};
+
+/*
+var config = {
+    iceServers: [{ url: "stun:turn01.uswest.xirsys.com"},
+        {
+            url: 'turn:turn01.uswest.xirsys.com:443?transport=udp',
+            credential: 'd67deea0-91f3-11e5-a1ef-f4a1811644f2',
+            username: 'd67dee00-91f3-11e5-8381-608369228938'
         },
         {
-            url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-            credential: 'webrtc',
-            username: 'webrtc'
+            url: 'turn:turn01.uswest.xirsys.com:443?transport=tcp',
+            credential: 'd67deea0-91f3-11e5-a1ef-f4a1811644f2',
+            username: 'd67dee00-91f3-11e5-8381-608369228938'
+        },
+        {
+            url: 'turn:turn01.uswest.xirsys.com:5349?transport=udp',
+            credential: 'd67deea0-91f3-11e5-a1ef-f4a1811644f2',
+            username: 'd67dee00-91f3-11e5-8381-608369228938'
+        },
+        {
+            url: 'turn:turn01.uswest.xirsys.com:5349?transport=tcp',
+            credential: 'd67deea0-91f3-11e5-a1ef-f4a1811644f2',
+            username: 'd67dee00-91f3-11e5-8381-608369228938'
         }]
 };
+*/
 
 var constrains = {
     options: [{ DtlsSrtpKeyAgreement: true }, { RtpDataChannels: true }]
