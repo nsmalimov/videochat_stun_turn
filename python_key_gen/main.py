@@ -8,7 +8,7 @@ import sqlite3
 
 def insert_to_db(generated_array):
     try:
-        conn = sqlite3.connect('./chat_java_web/ChatDatabase')
+        conn = sqlite3.connect('ChatDatabase')
     
     	cur = conn.cursor()    
 
