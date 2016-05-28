@@ -198,11 +198,9 @@ public class SessionUser {
         JSONObject jsonToReturn = new JSONObject();
         jsonToReturn.put("answer", "new_window");
 
-
         //not in free users
         if (checker) {
             interlocutorSes.getBasicRemote().sendText(jsonToReturn.toString());
         }
-
     }
 }
