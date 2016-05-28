@@ -19,8 +19,6 @@ public class SQLiteClass {
     public static ResultSet rs;
 
     public static void Conn() throws ClassNotFoundException, SQLException, NamingException {
-        //Class.forName("org.sqlite.JDBC");
-
         //полный путь к базе данных
         Class.forName("org.postgresql.Driver");
 
@@ -171,21 +169,17 @@ public class SQLiteClass {
         ResultSet rs = stat.executeQuery("select userIp from freeUsers where userIp = '" + ip + "'" + " and name != '"
                                         + userName + "'");
         while (rs.next()) {
-            //rs.close();
-
             marker = true;
             break;
         }
 
         rs.close();
-        //stat.close();
-
+        
         if (marker)
         {
             int n = stat.executeUpdate("UPDATE freeUsers SET name = " + "'" + userName + "'" +
                     ",userKeyGen = " + "'" + keyGen + "'"
                     + "WHERE userIp =" + "'" + ip + "'");
-            //stat.close();
             return;
         }
 
@@ -243,8 +237,6 @@ public class SQLiteClass {
 
         CloseDB();
     }
-
-
     //TODO
     //извлечение и генерация ключей
 }
