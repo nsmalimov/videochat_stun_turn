@@ -36,24 +36,9 @@ public class ServletWebrtc extends HttpServlet {
 
     @OnClose
     public void onClose(Session session) throws IOException, EncodeException{
-        //Session interlocutor = BuildClass.SessionUser.getInterlocutor(session);
-
-
-        //JSONObject jsonToReturn1 = new JSONObject();
-        //jsonToReturn1.put("answer", "stop_connect");
-
-        //interlocutor.getBasicRemote().sendText(jsonToReturn1.toString());
-
         BuildClass.SessionUser.closeConnect(session);
-
         System.out.println("close connect");
-
         BuildClass.SessionUser.printParams();
-        //BuildClass.SessionUser.printParams();
-
-
-
-        //BuildClass.SessionUser.printParams();
     }
 
     @OnMessage
@@ -63,11 +48,7 @@ public class ServletWebrtc extends HttpServlet {
         JSONObject jsonObject = new JSONObject(message);
 
         int command = Integer.parseInt(jsonObject.getString("command"));
-
-        //System.out.println(message);
-
-        //System.out.println(jsonObject.getString("name"));
-
+        
         switch (command)
         {
             case 0:
@@ -101,8 +82,6 @@ public class ServletWebrtc extends HttpServlet {
 
                 System.out.println(2);
                 int answer = SessionUser.connectTwo(client);
-
-                //System.out.println("answer " + answer);
 
                 if (answer == 0)
                 {
@@ -201,9 +180,7 @@ public class ServletWebrtc extends HttpServlet {
 
                     locutorSes3.getBasicRemote().sendText(jsonToReturn7.toString());
                 }
-
-                //System.out.println(jsonToReturn6.toString());
-
+                
                 break;
 
             default:
