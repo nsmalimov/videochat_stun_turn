@@ -2,7 +2,6 @@ import Databases.SQLiteClass;
 import org.json.JSONObject;
 
 import javax.naming.NamingException;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
@@ -12,14 +11,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Iterator;
 import java.util.UUID;
 
 public class AutorizationServlet extends HttpServlet {
 
     //TODO проверка по ip
-    public static boolean checkIp(String ip) throws ClassNotFoundException, SQLException,  NamingException
-    {
+    public static boolean checkIp(String ip) throws ClassNotFoundException, SQLException, NamingException {
         //проверка ругулярными выражениями
         if (ip.equals("0"))
             return true;
@@ -32,13 +29,12 @@ public class AutorizationServlet extends HttpServlet {
 
         StringBuilder neIP = new StringBuilder();
 
-        for (String c: splitIP)
-                neIP.append(c);
+        for (String c : splitIP)
+            neIP.append(c);
 
         String newIP = neIP.toString();
 
-        for (String c: goodIP)
-        {
+        for (String c : goodIP) {
             if (newIP.equals(c))
                 return true;
         }
@@ -51,8 +47,7 @@ public class AutorizationServlet extends HttpServlet {
         SQLiteClass.Conn();
         boolean answer = SQLiteClass.checkKeyGenDb(key);
 
-        if (answer)
-        {
+        if (answer) {
             //запись в базу данных
             SQLiteClass.addUserDatabase(name, key, ip);
         }
@@ -61,15 +56,15 @@ public class AutorizationServlet extends HttpServlet {
         return answer;
     }
 
-    public static String checkCookies(HttpServletRequest request) throws ClassNotFoundException, SQLException, NamingException{
+    public static String checkCookies(HttpServletRequest request) throws ClassNotFoundException, SQLException, NamingException {
         Cookie[] cookies = null;
         cookies = request.getCookies();
 
         String userName = "";
 
         if (cookies != null) {
-            for(Cookie cookie : cookies){
-                if("userKey".equals(cookie.getName())){
+            for (Cookie cookie : cookies) {
+                if ("userKey".equals(cookie.getName())) {
 
                     userName = SQLiteClass.getNameDb(cookie.getValue());
 
@@ -81,15 +76,15 @@ public class AutorizationServlet extends HttpServlet {
         return "";
     }
 
-    public static String getUserKey(HttpServletRequest request) throws ClassNotFoundException, SQLException, NamingException{
+    public static String getUserKey(HttpServletRequest request) throws ClassNotFoundException, SQLException, NamingException {
         Cookie[] cookies = null;
         cookies = request.getCookies();
 
         String userName = "";
 
         if (cookies != null) {
-            for(Cookie cookie : cookies){
-                if("userKey".equals(cookie.getName())){
+            for (Cookie cookie : cookies) {
+                if ("userKey".equals(cookie.getName())) {
 
                     userName = SQLiteClass.getNameDb(cookie.getValue());
 
@@ -136,8 +131,6 @@ public class AutorizationServlet extends HttpServlet {
 
                     boolean checkIp = checkIp(ip);
 
-                    //System.out.println(userNameCookies);
-
                     //ip верен cooki верны
                     if (checkIp && !userNameCookies.equals("")) {
                         JSONObject jsonToReturn = new JSONObject();
@@ -147,8 +140,7 @@ public class AutorizationServlet extends HttpServlet {
                     }
 
                     //ip верен cooki не верны или отсутствуют
-                    if (checkIp && userNameCookies.equals(""))
-                    {
+                    if (checkIp && userNameCookies.equals("")) {
                         JSONObject jsonToReturn = new JSONObject();
                         jsonToReturn.put("answer", "name");
                         out.println(jsonToReturn.toString());
@@ -157,8 +149,7 @@ public class AutorizationServlet extends HttpServlet {
                     //ip не правильный, но куки пришли
                     //нужно куки проверить
                     //динамический ip?
-                    if (!checkIp && !userNameCookies.equals(""))
-                    {
+                    if (!checkIp && !userNameCookies.equals("")) {
                         //добавить ip в базу данных
                         SQLiteClass.addUserIP(ip);
 
@@ -173,8 +164,7 @@ public class AutorizationServlet extends HttpServlet {
                     }
 
                     //отправить форму регистрации
-                    if (!checkIp && userNameCookies.equals(""))
-                    {
+                    if (!checkIp && userNameCookies.equals("")) {
                         JSONObject jsonToReturn = new JSONObject();
                         jsonToReturn.put("answer", "ip");
                         out.println(jsonToReturn.toString());

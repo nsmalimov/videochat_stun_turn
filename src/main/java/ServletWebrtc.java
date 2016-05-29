@@ -1,30 +1,13 @@
+import BuildClass.SessionUser;
 import Databases.SQLiteClass;
 import org.json.JSONObject;
 
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServlet;
-import javax.websocket.EncodeException;
-import javax.websocket.OnClose;
-import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
-import javax.websocket.OnError;
-import javax.websocket.Session;
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-
-import java.io.IOException;
 import java.sql.SQLException;
-import javax.naming.NamingException;
-
-
-import java.util.*;
-import java.util.concurrent.ConcurrentMap;
-import static java.util.Collections.emptySet;
-import java.io.StringReader;
-
-import BuildClass.SessionUser;
 
 @ServerEndpoint(value = "/webrtc")
 public class ServletWebrtc extends HttpServlet {
@@ -35,7 +18,7 @@ public class ServletWebrtc extends HttpServlet {
     }
 
     @OnClose
-    public void onClose(Session session) throws IOException, EncodeException{
+    public void onClose(Session session) throws IOException, EncodeException {
         BuildClass.SessionUser.closeConnect(session);
         System.out.println("close connect");
         BuildClass.SessionUser.printParams();
@@ -48,9 +31,8 @@ public class ServletWebrtc extends HttpServlet {
         JSONObject jsonObject = new JSONObject(message);
 
         int command = Integer.parseInt(jsonObject.getString("command"));
-        
-        switch (command)
-        {
+
+        switch (command) {
             case 0:
                 //start chat
                 SessionUser.addFreeUser(client, jsonObject.getString("name"));
@@ -83,16 +65,13 @@ public class ServletWebrtc extends HttpServlet {
                 System.out.println(2);
                 int answer = SessionUser.connectTwo(client);
 
-                if (answer == 0)
-                {
+                if (answer == 0) {
                     //в режим ожидания
                     JSONObject jsonToReturn2 = new JSONObject();
                     jsonToReturn2.put("answer", "wait_window");
                     client.getBasicRemote().sendText(jsonToReturn2.toString());
                     System.out.println("wait_command");
-                }
-                else
-                {
+                } else {
                     //начать чат
                     JSONObject jsonToReturn2 = new JSONObject();
                     jsonToReturn2.put("answer", "new_interlocutor");
@@ -154,13 +133,11 @@ public class ServletWebrtc extends HttpServlet {
 
                 System.out.println(newName);
 
-                 try {
+                try {
                     SQLiteClass.updateName(newName, ip);
-                 }
-                 catch (Exception e)
-                 {
-                     System.out.println(e);
-                 }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
 
                 JSONObject jsonToReturn6 = new JSONObject();
                 jsonToReturn6.put("answer", "changed");
@@ -180,7 +157,7 @@ public class ServletWebrtc extends HttpServlet {
 
                     locutorSes3.getBasicRemote().sendText(jsonToReturn7.toString());
                 }
-                
+
                 break;
 
             default:

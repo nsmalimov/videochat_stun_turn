@@ -18,31 +18,25 @@ ws = new WebSocket("ws://" + serverHostName + ":" + portName + "/webrtc");
 
 var count_tocken = 0;
 
-ws.onmessage = function(event)
-{
+ws.onmessage = function (event) {
     var getData = JSON.parse(event.data);
-    if (getData["answer"] === "token")
-    {
+    if (getData["answer"] === "token") {
         //поставить ограничение на количество генерируемых ключей
-        if (getData["token"] == "")
-        {
+        if (getData["token"] == "") {
             $('#token_space').append("<p>" + "Ключей нет, обратитесь к администратору" + "</p>");
             $('#tokenButton').hide();
         }
-        else
-        {
+        else {
             $('#token_space').append("<p>" + getData["token"] + "</p>");
         }
-        count_tocken  = count_tocken + 1;
+        count_tocken = count_tocken + 1;
 
-        if (count_tocken > 7)
-        {
+        if (count_tocken > 7) {
             $('#tokenButton').attr("disabled", true);
         }
     }
 
-    if (getData["answer"] === "changed")
-    {
+    if (getData["answer"] === "changed") {
         $('#my_profile').modal('hide');
 
         $("#NameInput").val(getData["NewName"]);
@@ -50,8 +44,7 @@ ws.onmessage = function(event)
         alert("Name was changed");
     }
 };
-function initSocket()
-{
+function initSocket() {
     initialize();
 }
 
@@ -71,66 +64,31 @@ function initialize() {
 }
 
 var config = {
-    iceServers: [{ url: "stun:stun.l.google.com:19302"},
+    iceServers: [{url: "stun:stun.l.google.com:19302"},
         {
-                url: 'turn:95.213.199.90:3478',
-                credential: '22091993',
-                username: 'partizan'
-        }]
-        //{
-        //    url: 'turn:turn.anyfirewall.com:443?transport=tcp',
-        //    credential: 'webrtc',
-        //    username: 'webrtc'
-        //}]
-};
-
-/*
-var config = {
-    iceServers: [{ url: "stun:turn01.uswest.xirsys.com"},
-        {
-            url: 'turn:turn01.uswest.xirsys.com:443?transport=udp',
-            credential: 'd67deea0-91f3-11e5-a1ef-f4a1811644f2',
-            username: 'd67dee00-91f3-11e5-8381-608369228938'
-        },
-        {
-            url: 'turn:turn01.uswest.xirsys.com:443?transport=tcp',
-            credential: 'd67deea0-91f3-11e5-a1ef-f4a1811644f2',
-            username: 'd67dee00-91f3-11e5-8381-608369228938'
-        },
-        {
-            url: 'turn:turn01.uswest.xirsys.com:5349?transport=udp',
-            credential: 'd67deea0-91f3-11e5-a1ef-f4a1811644f2',
-            username: 'd67dee00-91f3-11e5-8381-608369228938'
-        },
-        {
-            url: 'turn:turn01.uswest.xirsys.com:5349?transport=tcp',
-            credential: 'd67deea0-91f3-11e5-a1ef-f4a1811644f2',
-            username: 'd67dee00-91f3-11e5-8381-608369228938'
+            url: 'turn::3478',
+            credential: '',
+            username: ''
         }]
 };
-*/
 
 var constrains = {
-    options: [{ DtlsSrtpKeyAgreement: true }, { RtpDataChannels: true }]
+    options: [{DtlsSrtpKeyAgreement: true}, {RtpDataChannels: true}]
 };
 
 function success(stream) {
     pc = new PeerConnection(config, constrains);
 
-    if (wasUsed){
-
-        //initialize();
+    if (wasUsed) {
         var sentJson1 = new Object();
         sentJson1.command = "0";
         sentJson1.name = $('#your_name').text();
 
-        //componentPropetrOn();
         $("#stopButton").attr("disabled", false);
 
         ws.send(JSON.stringify(sentJson1));
 
         waitingWindowStart();
-        //return;
     }
     else {
         var sentJson = new Object();
@@ -138,7 +96,6 @@ function success(stream) {
         sentJson.command = "0";
         sentJson.name = $('#your_name').text();
 
-        //componentPropetrOn();
         $("#stopButton").attr("disabled", false);
 
         ws.send(JSON.stringify(sentJson));
@@ -153,12 +110,11 @@ function success(stream) {
         }
     }
 
-    pc.onaddstream = function(event) {
+    pc.onaddstream = function (event) {
         $('#remote').attachStream(event.stream);
-        //logStreaming(true);
     };
 
-    pc.onicecandidate = function(event) {
+    pc.onicecandidate = function (event) {
         if (event.candidate) {
 
             var sentJson = new Object();
@@ -182,7 +138,6 @@ function success(stream) {
             } else {
                 log('Waiting for guest connection...');
             }
-            //initialize();
         }
         if (getCommand == "guest") {
             $('#interlocutor_name').text(getJson["nameInterlocutor"]);
@@ -193,10 +148,9 @@ function success(stream) {
             } else {
                 log('Waiting for guest connection...');
             }
-            //initialize();
         }
 
-        if (getCommand === "system"){
+        if (getCommand === "system") {
 
             componentPropetrOn();
 
@@ -217,15 +171,13 @@ function success(stream) {
             }
         }
 
-        if (getCommand === "message")
-        {
+        if (getCommand === "message") {
             var textMessages = getJson["message"];
             var interlocutorNameChat = $('#interlocutor_name').text();
             upDateChatBoxGet(interlocutorNameChat, textMessages);
         }
 
-        if (getCommand === "new_window")
-        {
+        if (getCommand === "new_window") {
             pc.close();
             $('#remote_container').remove();
 
@@ -235,52 +187,44 @@ function success(stream) {
         }
 
         //перейти в режим ожидания
-        if (getCommand === "wait_window")
-        {
+        if (getCommand === "wait_window") {
             success(stream);
             initiator = false;
         }
 
         //найден собеседник (ответить)
-        if (getCommand === "new_interlocutor")
-        {
+        if (getCommand === "new_interlocutor") {
             pc.close();
             success(stream);
             createOffer();
         }
 
-        if (getJson["answer"] === "token")
-        {
+        if (getJson["answer"] === "token") {
             //поставить ограничение на количество генерируемых ключей
 
 
-            if (getJson["token"] == "")
-            {
+            if (getJson["token"] == "") {
                 $('#token_space').append("<p>" + "Ключей нет, обратитесь к администратору" + "</p>");
                 $('#tokenButton').hide();
             }
-            else
-            {
+            else {
                 $('#token_space').append("<p>" + getJson["token"] + "</p>");
             }
 
-            count_tocken  = count_tocken + 1;
+            count_tocken = count_tocken + 1;
 
-            if (count_tocken > 7)
-            {
+            if (count_tocken > 7) {
                 $('#tokenButton').attr("disabled", true);
             }
         }
 
-        if (getJson["answer"] === "changed")
-        {
+        if (getJson["answer"] === "changed") {
             $('#my_profile').modal('hide');
             $("#NameInput").val(getJson["NewName"]);
             alert("Name was changed");
         }
 
-        if (getJson["answer"] === "changed_interlocutor_name")
-        {
+        if (getJson["answer"] === "changed_interlocutor_name") {
             $('#interlocutor_name').text(getJson["interlocutorName"]);
             log(getJson["interlocutorName"]);
         }
@@ -288,18 +232,13 @@ function success(stream) {
 }
 
 function fail() {
-    //обработка отсутствия камеры
-    //hangup();
-    //$('#traceback').text(Array.prototype.join.call(arguments, ' '));
-    //$('#traceback').attr('class', 'bg-danger');
-    //console.error.apply(console, arguments);
 }
 
 function createOffer() {
     log('Creating offer. Please wait.');
-    pc.createOffer(function(offer) {
+    pc.createOffer(function (offer) {
         log('Success offer');
-        pc.setLocalDescription(offer, function() {
+        pc.setLocalDescription(offer, function () {
             log('Sending to remote...');
             var sentJson = new Object();
             sentJson.sentdata = JSON.stringify(offer);
@@ -311,11 +250,11 @@ function createOffer() {
 
 function receiveOffer(offer) {
     log('Received offer.');
-    pc.setRemoteDescription(new SessionDescription(offer), function() {
+    pc.setRemoteDescription(new SessionDescription(offer), function () {
         log('Creating response');
-        pc.createAnswer(function(answer) {
+        pc.createAnswer(function (answer) {
             log('Created response');
-            pc.setLocalDescription(answer, function() {
+            pc.setLocalDescription(answer, function () {
                 log('Sent response');
                 var sentJson = new Object();
                 sentJson.sentdata = JSON.stringify(answer);
@@ -372,8 +311,8 @@ function newInterlocutor() {
 
 }
 
-jQuery.fn.attachStream = function(stream) {
-    this.each(function() {
+jQuery.fn.attachStream = function (stream) {
+    this.each(function () {
         this.src = URL.createObjectURL(stream);
         this.play();
     });
@@ -411,8 +350,7 @@ function generateToken() {
     ws.send(json);
 }
 
-function changeNickName()
-{
+function changeNickName() {
     var json_create = new Object();
     json_create.command = "6";
     json_create.new_name = $('#NewKeyInput').val();

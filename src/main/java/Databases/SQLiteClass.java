@@ -1,17 +1,10 @@
 package Databases;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.logging.*;
 
 //TODO
 //add finally
-
-import java.sql.*;
 
 public class SQLiteClass {
     public static Connection conn;
@@ -24,7 +17,7 @@ public class SQLiteClass {
 
         //полный путь к базе данных
 
-        conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1/videochat","postgres","ve;br");
+        conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1/videochat", "postgres", "");
     }
 
     public static boolean checkKeyGenDb(String keyGen) throws ClassNotFoundException, SQLException {
@@ -63,15 +56,13 @@ public class SQLiteClass {
             statement.close();
         } catch (Exception e) {
             //nothing
-        }
-        finally {
+        } finally {
             CloseDB();
         }
     }
 
     //получить имя по ключу
-    public static String getNameDb(String keyGen) throws ClassNotFoundException, SQLException, NamingException
-    {
+    public static String getNameDb(String keyGen) throws ClassNotFoundException, SQLException, NamingException {
         Conn();
 
         stat = conn.createStatement();
@@ -102,14 +93,12 @@ public class SQLiteClass {
             statement.close();
         } catch (Exception e) {
             System.out.println(e);
-        }
-        finally {
+        } finally {
             CloseDB();
         }
     }
 
-    public static boolean checkIP(String ip) throws ClassNotFoundException, SQLException,  NamingException
-    {
+    public static boolean checkIP(String ip) throws ClassNotFoundException, SQLException, NamingException {
         Conn();
         stat = conn.createStatement();
 
@@ -128,8 +117,7 @@ public class SQLiteClass {
     }
 
 
-    public static String generateKeygen() throws ClassNotFoundException, SQLException,  NamingException
-    {
+    public static String generateKeygen() throws ClassNotFoundException, SQLException, NamingException {
         Conn();
 
         stat = conn.createStatement();
@@ -155,7 +143,6 @@ public class SQLiteClass {
     }
 
     public static void CloseDB() throws ClassNotFoundException, SQLException {
-        //conn.commit();
         conn.close();
     }
 
@@ -167,16 +154,15 @@ public class SQLiteClass {
         boolean marker = false;
         //если найдено значение неиспользованное
         ResultSet rs = stat.executeQuery("select userIp from freeUsers where userIp = '" + ip + "'" + " and name != '"
-                                        + userName + "'");
+                + userName + "'");
         while (rs.next()) {
             marker = true;
             break;
         }
 
         rs.close();
-        
-        if (marker)
-        {
+
+        if (marker) {
             int n = stat.executeUpdate("UPDATE freeUsers SET name = " + "'" + userName + "'" +
                     ",userKeyGen = " + "'" + keyGen + "'"
                     + "WHERE userIp =" + "'" + ip + "'");
@@ -196,8 +182,7 @@ public class SQLiteClass {
             statement.close();
         } catch (Exception e) {
             //nothing
-        }
-        finally {
+        } finally {
             CloseDB();
         }
     }
@@ -216,7 +201,7 @@ public class SQLiteClass {
         }
 
         int n = stat.executeUpdate("UPDATE freeUsers SET ip = " + "'" + IP + "'" +
-                 "WHERE keyGen =" + "'" + KeyGen + "'");
+                "WHERE keyGen =" + "'" + KeyGen + "'");
 
         int n1 = stat.executeUpdate("DELETE FROM usersIP WHERE ip = '" + ipGet + "'");
 
